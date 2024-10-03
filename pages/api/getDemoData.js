@@ -1,13 +1,12 @@
 // pages/api/getData.js
 import connectToDatabase from "../../lib/mongoose";
-import EnquiryData from "@/models/EnquiryData";
-
+import DemoData from "@/models/DemoData";
 export default async function GET(req, res) {
   try {
     await connectToDatabase();
 
     // Fetch the data from a collection
-    const data = await EnquiryData.find({});
+    const data = await DemoData.find({});
 
     res.status(200).json({ success: true, data });
   } catch (e) {
