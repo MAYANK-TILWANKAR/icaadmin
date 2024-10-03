@@ -5,8 +5,6 @@ const demoDataSchema = new mongoose.Schema(
     name: String,
     email: String,
     mobile: String,
-    college: String,
-    date: String,
     course: String,
   },
   {
