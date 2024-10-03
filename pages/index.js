@@ -7,32 +7,51 @@ const ContactAdminDashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [contactRes, demoRes] = await Promise.all([
-          fetch("/api/getData"),
-          fetch("/api/getDemoData")
-        ]);
-
-        if (!contactRes.ok || !demoRes.ok) {
-          throw new Error(`Error fetching data`);
-        }
-
-        const contactJsonData = await contactRes.json();
-        const demoJsonData = await demoRes.json();
-
-        setFormData(contactJsonData.data);
-        setDemoData(demoJsonData.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const [contactRes, demoRes] = await Promise.all([
+        fetch("/api/getData"),
+        fetch("/api/getDemoData")
+      ]);
+
+      if (!contactRes.ok || !demoRes.ok) {
+        throw new Error(`Error fetching data`);
+      }
+
+      const contactJsonData = await contactRes.json();
+      const demoJsonData = await demoRes.json();
+
+      setFormData(contactJsonData.data);
+      setDemoData(demoJsonData.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id, isDemo) => {
+    try {
+      const endpoint = isDemo ? `/api/deleteDemoEnquiry?id=${id}` : `/api/deleteEnquiry?id=${id}`;
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete entry');
+      }
+
+      // Refresh data after successful deletion
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+      setError(error.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -74,12 +93,15 @@ const ContactAdminDashboard = () => {
               <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
                 Message
               </th>
+              <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {formData.length === 0 ? (
               <tr>
-                <td colSpan="4" className="text-center py-4 text-gray-500">
+                <td colSpan="5" className="text-center py-4 text-gray-500">
                   No submissions found
                 </td>
               </tr>
@@ -97,6 +119,14 @@ const ContactAdminDashboard = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">
                     {entry.message}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    <button
+                      onClick={() => handleDelete(entry._id, false)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
@@ -130,12 +160,15 @@ const ContactAdminDashboard = () => {
               <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
                 Course
               </th>
+              <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {demoData.length === 0 ? (
               <tr>
-                <td colSpan="6" className="text-center py-4 text-gray-500">
+                <td colSpan="7" className="text-center py-4 text-gray-500">
                   No demo data submissions found
                 </td>
               </tr>
@@ -159,6 +192,14 @@ const ContactAdminDashboard = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">
                     {entry.course}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    <button
+                      onClick={() => handleDelete(entry._id, true)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
