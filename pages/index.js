@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { FaSpinner, FaTrash } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaSpinner, FaTrash, FaEnvelope, FaPhone, FaGraduationCap, FaCalendarAlt } from "react-icons/fa";
 
 const ContactAdminDashboard = () => {
   const [formData, setFormData] = useState([]);
@@ -57,11 +57,11 @@ const ContactAdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="text-white text-4xl"
+          animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="text-white text-6xl"
         >
           <FaSpinner />
         </motion.div>
@@ -75,136 +75,178 @@ const ContactAdminDashboard = () => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4 rounded shadow-lg"
+        className="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 m-6 rounded-lg shadow-xl"
         role="alert"
       >
-        <p className="font-bold">Error</p>
-        <p>{error}</p>
+        <p className="font-bold text-xl mb-2">Error</p>
+        <p className="text-lg">{error}</p>
       </motion.div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-8">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.7 }}
         className="container mx-auto"
       >
-        <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+        <h1 className="text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
           Admin Dashboard
         </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">
-            Contact Form Submissions
-          </h2>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Mobile</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Message</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {formData.length === 0 ? (
-                  <tr>
-                    <td colSpan="5" className="text-center py-4 text-gray-500">No submissions found</td>
+        <AnimatePresence>
+          <motion.div
+            key="contact-form"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Contact Form Submissions
+            </h2>
+            <div className="bg-white rounded-xl shadow-2xl overflow-hidden mb-12">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Mobile</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Message</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Action</th>
                   </tr>
-                ) : (
-                  formData.map((entry) => (
-                    <motion.tr
-                      key={entry._id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="hover:bg-gray-50"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.mobile || "N/A"}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.message}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <button
-                          onClick={() => handleDelete(entry._id, false)}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                        >
-                          <FaTrash />
-                        </button>
-                      </td>
-                    </motion.tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {formData.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-8 text-gray-500 text-lg">No submissions found</td>
+                    </tr>
+                  ) : (
+                    formData.map((entry) => (
+                      <motion.tr
+                        key={entry._id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="hover:bg-gray-50"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{entry.name}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaEnvelope className="mr-2 text-indigo-500" />
+                            {entry.email}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaPhone className="mr-2 text-green-500" />
+                            {entry.mobile || "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{entry.message}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleDelete(entry._id, false)}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+                          >
+                            <FaTrash />
+                          </motion.button>
+                        </td>
+                      </motion.tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">
-            Demo Data Submissions
-          </h2>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gradient-to-r from-blue-500 to-green-500 text-white">
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Mobile</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">College</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Course</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {demoData.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" className="text-center py-4 text-gray-500">No demo data submissions found</td>
+          <motion.div
+            key="demo-data"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Demo Data Submissions
+            </h2>
+            <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 text-white">
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Mobile</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">College</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Course</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Action</th>
                   </tr>
-                ) : (
-                  demoData.map((entry) => (
-                    <motion.tr
-                      key={entry._id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="hover:bg-gray-50"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.mobile || "N/A"}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.college || "N/A"}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{new Date(entry.createdAt).toLocaleDateString()}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.course}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <button
-                          onClick={() => handleDelete(entry._id, true)}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                        >
-                          <FaTrash />
-                        </button>
-                      </td>
-                    </motion.tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {demoData.length === 0 ? (
+                    <tr>
+                      <td colSpan="7" className="text-center py-8 text-gray-500 text-lg">No demo data submissions found</td>
+                    </tr>
+                  ) : (
+                    demoData.map((entry) => (
+                      <motion.tr
+                        key={entry._id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="hover:bg-gray-50"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{entry.name}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaEnvelope className="mr-2 text-blue-500" />
+                            {entry.email}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaPhone className="mr-2 text-green-500" />
+                            {entry.mobile || "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaGraduationCap className="mr-2 text-purple-500" />
+                            {entry.college || "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <FaCalendarAlt className="mr-2 text-yellow-500" />
+                            {new Date(entry.createdAt).toLocaleDateString()}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-medium">{entry.course}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleDelete(entry._id, true)}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+                          >
+                            <FaTrash />
+                          </motion.button>
+                        </td>
+                      </motion.tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
     </div>
   );
