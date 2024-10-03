@@ -125,7 +125,7 @@ const ContactAdminDashboard = () => {
             <table className="min-w-full divide-y divide-yellow-200">
               <thead className="bg-yellow-100">
                 <tr>
-                  {["Name", "Email", "Mobile", "College", "Date", "Course", "Action"].map((header) => (
+                  {["Name", "Email", "Mobile", "Course", "Action"].map((header) => (
                     <th key={header} className="px-6 py-3 text-left text-xs font-medium text-yellow-700 uppercase tracking-wider">
                       {header}
                     </th>
