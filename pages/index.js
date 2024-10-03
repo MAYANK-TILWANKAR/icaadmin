@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 const ContactAdminDashboard = () => {
   const [formData, setFormData] = useState([]);
@@ -56,11 +55,7 @@ const ContactAdminDashboard = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-blue-50">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-t-4 border-blue-600 border-solid rounded-full"
-        />
+        <div className="w-16 h-16 border-t-4 border-blue-600 border-solid rounded-full animate-spin" />
       </div>
     );
   }
@@ -68,27 +63,17 @@ const ContactAdminDashboard = () => {
   if (error) {
     return (
       <div className="container mx-auto p-4 sm:p-8">
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
-          role="alert"
-        >
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
           <p className="font-bold">Error</p>
           <p>{error}</p>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="bg-blue-50 min-h-screen">
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="container mx-auto p-4 sm:p-8"
-      >
+      <div className="container mx-auto p-4 sm:p-8">
         <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-blue-800 border-b border-blue-200 pb-2">Admin Dashboard</h1>
         
         <section className="mb-12">
@@ -121,7 +106,7 @@ const ContactAdminDashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => handleDelete(entry._id, false)}
-                          className="text-red-600 hover:text-red-800 transition-colors duration-200"
+                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
                         >
                           Delete
                         </button>
@@ -164,7 +149,7 @@ const ContactAdminDashboard = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => handleDelete(entry._id, true)}
-                          className="text-red-600 hover:text-red-800 transition-colors duration-200"
+                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
                         >
                           Delete
                         </button>
@@ -176,7 +161,7 @@ const ContactAdminDashboard = () => {
             </table>
           </div>
         </section>
-      </motion.div>
+      </div>
     </div>
   );
 };
