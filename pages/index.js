@@ -84,7 +84,7 @@ const ContactAdminDashboard = () => {
 
         <section className="mb-12">
           <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-blue-700">
-            Contact Form Submissions
+            Enquiry Form Submissions
           </h2>
           <div className="bg-white rounded-lg shadow-md overflow-x-auto">
             <table className="min-w-full divide-y divide-blue-200">
@@ -130,7 +130,7 @@ const ContactAdminDashboard = () => {
                       <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => handleDelete(entry._id, false)}
-                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded transition-colors duration-200 text-xs sm:text-sm">
+                          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 rounded transition-colors duration-200 text-xs sm:text-sm ">
                           Delete
                         </button>
                       </td>
